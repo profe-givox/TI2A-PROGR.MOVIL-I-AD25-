@@ -29,6 +29,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -45,10 +46,13 @@ import com.example.tiptime.ui.theme.TipTimeTheme
 import java.text.NumberFormat
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.input.KeyboardType
 
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
@@ -61,25 +65,62 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+        Log.d("PERROX", " paso por onCreate")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("PERROX", " paso por onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("PERROX", " paso por onResume")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d("PERROX", " paso por onRestarrt")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("PERROX", " paso por onStop")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("PERROX", " paso por onDestroy")
     }
 }
 
 @Composable
-fun EditNumberField(modifier: Modifier = Modifier) {
+fun EditNumberField(
+    value: String,
+    onValueChange : (String) -> Unit,
+    modifier: Modifier = Modifier) {
     //val amountInput = "0"
-    var amountInput  by remember { mutableStateOf("0")}
+    //var amountInput  by remember { mutableStateOf("")}
 
     TextField(
-        value = amountInput,
+        value = value,
         //onValueChange = { el -> Log.d("PERROX", el) },
         //onValueChange = {  Log.d("PERROX", it) },
-        onValueChange = {  amountInput = it },
+        onValueChange = onValueChange,
+        label = { Text(stringResource(R.string.bill_amount)) },
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         modifier = modifier
     )
 }
 
 @Composable
 fun TipTimeLayout() {
+    var amountInput  by rememberSaveable { mutableStateOf("")}
+
+    val amount = amountInput.toDoubleOrNull() ?: 0.0
+    val tip = calculateTip(amount)
+
     Column(
         modifier = Modifier
             .statusBarsPadding()
@@ -94,13 +135,15 @@ fun TipTimeLayout() {
                 .padding(bottom = 16.dp, top = 40.dp)
                 .align(alignment = Alignment.Start)
         )
-        EditNumberField(
+        EditNumberField(value = amountInput,
+            onValueChange = { amountInput = it },
             modifier = Modifier
                 .padding(bottom = 32.dp)
                 .fillMaxWidth()
         )
+
         Text(
-            text = stringResource(R.string.tip_amount, "$0.00"),
+            text = stringResource(R.string.tip_amount, tip),
             style = MaterialTheme.typography.displaySmall
         )
         Spacer(modifier = Modifier.height(150.dp))
