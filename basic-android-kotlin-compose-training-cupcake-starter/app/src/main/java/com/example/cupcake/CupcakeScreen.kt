@@ -40,6 +40,11 @@ import androidx.navigation.compose.rememberNavController
 import com.example.cupcake.data.DataSource
 import com.example.cupcake.ui.OrderViewModel
 import com.example.cupcake.ui.StartOrderScreen
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.ui.platform.LocalContext
+import com.example.cupcake.data.DataSource.flavors
+import com.example.cupcake.ui.SelectOptionScreen
+import com.example.cupcake.ui.OrderSummaryScreen
 
 
 enum class CupcakeScreen() {
@@ -100,10 +105,41 @@ fun CupcakeApp(
             composable(route = CupcakeScreen.Start.name) {
                 StartOrderScreen(
                     quantityOptions = DataSource.quantityOptions,
+                    onNextButtonClicked = {
+                        viewModel.setQuantity(it)
+                        navController.navigate(CupcakeScreen.Flavor.name)
+                    },
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(dimensionResource(R.dimen.padding_medium))
                 )
+            }
+
+            composable(route = CupcakeScreen.Flavor.name) {
+                val context = LocalContext.current
+                SelectOptionScreen(
+                    subtotal = uiState.price,
+                    options = DataSource.flavors.map { id -> context.resources.getString(id) },
+                    onSelectionChanged = { viewModel.setFlavor(it) },
+                    modifier = Modifier.fillMaxHeight()
+                )
+            }
+            composable(route = CupcakeScreen.Pickup.name) {
+                SelectOptionScreen(
+                    subtotal = uiState.price,
+                    options = uiState.pickupOptions,
+                    onSelectionChanged = { viewModel.setDate(it) },
+                    modifier = Modifier.fillMaxHeight()
+                )
+            }
+            composable(route = CupcakeScreen.Summary.name) {
+                OrderSummaryScreen(
+                    orderUiState = uiState,
+                    onSendButtonClicked = {it1,it2->},
+                    onCancelButtonClicked = {},
+                    modifier = Modifier.fillMaxHeight()
+                )
+
             }
         }
 
