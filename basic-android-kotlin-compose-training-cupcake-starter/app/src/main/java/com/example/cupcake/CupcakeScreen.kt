@@ -121,6 +121,10 @@ fun CupcakeApp(
                     subtotal = uiState.price,
                     options = DataSource.flavors.map { id -> context.resources.getString(id) },
                     onSelectionChanged = { viewModel.setFlavor(it) },
+                    onNextButtonClicked = {
+                        navController.navigate(CupcakeScreen.Pickup.name)
+                                          },
+                    onCancelButtonClicked = {cancelOrderAndNavigateToStart(viewModel, navController)},
                     modifier = Modifier.fillMaxHeight()
                 )
             }
@@ -129,14 +133,19 @@ fun CupcakeApp(
                     subtotal = uiState.price,
                     options = uiState.pickupOptions,
                     onSelectionChanged = { viewModel.setDate(it) },
+                    onNextButtonClicked = {navController.navigate(
+                        CupcakeScreen.Summary.name)
+                                          },
+                    onCancelButtonClicked = {cancelOrderAndNavigateToStart(viewModel, navController)},
                     modifier = Modifier.fillMaxHeight()
                 )
             }
             composable(route = CupcakeScreen.Summary.name) {
                 OrderSummaryScreen(
                     orderUiState = uiState,
+
                     onSendButtonClicked = {it1,it2->},
-                    onCancelButtonClicked = {},
+                    onCancelButtonClicked = {cancelOrderAndNavigateToStart(viewModel, navController)},
                     modifier = Modifier.fillMaxHeight()
                 )
 
@@ -144,4 +153,12 @@ fun CupcakeApp(
         }
 
     }
+}
+
+private fun cancelOrderAndNavigateToStart(
+    viewModel: OrderViewModel,
+    navController: NavHostController
+) {
+    viewModel.resetOrder()
+    navController.popBackStack(CupcakeScreen.Start.name, inclusive = false)
 }
