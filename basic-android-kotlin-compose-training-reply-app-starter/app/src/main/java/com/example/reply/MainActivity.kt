@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material3.Surface
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -55,7 +56,7 @@ class MainActivity : ComponentActivity() {
                 ) {
 
                     val windowSize = calculateWindowSizeClass(this)
-                    ReplyApp()
+                    ReplyApp(windowSize = windowSize.widthSizeClass)
                 }
             }
         }
@@ -67,7 +68,7 @@ class MainActivity : ComponentActivity() {
 fun ReplyAppCompactPreview() {
     ReplyTheme {
         Surface {
-            ReplyApp()
+            ReplyApp(windowSize = WindowWidthSizeClass.Compact,)
         }
     }
 }
