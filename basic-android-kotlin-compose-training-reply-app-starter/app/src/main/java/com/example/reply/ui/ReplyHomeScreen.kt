@@ -150,7 +150,7 @@ private fun ReplyAppContent(
     navigationItemContentList: List<NavigationItemContent>,
     modifier: Modifier = Modifier,
 ) {
-    Box(modifier = modifier) {
+    Row(modifier = modifier) {
         val navigationRailContentDescription = stringResource(R.string.navigation_rail)
         AnimatedVisibility(visible = navigationType == ReplyNavigationType.NAVIGATION_RAIL) {
             ReplyNavigationRail(
