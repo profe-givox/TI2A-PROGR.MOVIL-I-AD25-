@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">archivosmultimediaconcompose</string>
+    <string name="take_picture_button">Take Picture</string>
 </resources>
