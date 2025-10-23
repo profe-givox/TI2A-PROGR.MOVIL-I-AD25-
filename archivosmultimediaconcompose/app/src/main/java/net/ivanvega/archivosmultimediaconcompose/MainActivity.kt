@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ArchivosmultimediaconcomposeTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    TakePictureComposable()
+                    TakePictureComposable(modifier = Modifier.padding(innerPadding))
                     /*Greeting(
                         name = "Android",
                         modifier = Modifier.padding(innerPadding)
