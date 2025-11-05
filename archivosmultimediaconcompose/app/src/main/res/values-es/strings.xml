@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">archivosmultimediaconcompose</string>
     <string name="take_picture_button">Tomar foto</string>
+    <string name="take_picture_description">Foto tomada con la camara</string>
 </resources>
