@@ -40,17 +40,28 @@ import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.ui.PlayerView
 
 class MainActivity : ComponentActivity() {
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             ArchivosmultimediaconcomposeTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    TakePictureComposable(modifier = Modifier.padding(innerPadding).fillMaxSize())
+                    //TakePictureComposable(modifier = Modifier.padding(innerPadding).fillMaxSize())
                     /*Greeting(
                         name = "Android",
                         modifier = Modifier.padding(innerPadding)
                     )*/
+                    GrabarAudioScreen(
+                        {},
+                        {},
+                        {},
+                        {}
+
+                    )
+
                 }
             }
         }
