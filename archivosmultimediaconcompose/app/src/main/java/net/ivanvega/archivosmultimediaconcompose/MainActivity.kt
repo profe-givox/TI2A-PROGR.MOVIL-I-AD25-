@@ -42,6 +42,10 @@ import com.google.android.exoplayer2.ui.PlayerView
 class MainActivity : ComponentActivity() {
 
 
+    private val recordet by lazy {
+        AndroidAudioRecorder(applicationContext)
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
