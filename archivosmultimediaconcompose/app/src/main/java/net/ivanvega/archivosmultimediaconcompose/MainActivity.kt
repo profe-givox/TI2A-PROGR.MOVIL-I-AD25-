@@ -38,12 +38,20 @@ import net.ivanvega.archivosmultimediaconcompose.ui.theme.Archivosmultimediaconc
 
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.ui.PlayerView
+import java.io.File
+import java.net.URI
 
 class MainActivity : ComponentActivity() {
 
 
+    private lateinit var fileAudio: File
+
     private val recordet by lazy {
         AndroidAudioRecorder(applicationContext)
+    }
+
+    private val player by lazy {
+        AndroidAudioPlayer(applicationContext)
     }
 
 
@@ -59,10 +67,16 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding)
                     )*/
                     GrabarAudioScreen(
-                        {},
-                        {},
-                        {},
-                        {}
+                        {
+
+                                File(cacheDir, "miaudio.mp3").also {
+                                         recordet.start( it)
+                                         fileAudio = it
+                                }
+                        },
+                        {fileAudio?.let { recordet.stop() }},
+                        { fileAudio?.let { player.start(it) } },
+                        {fileAudio?.let { player.stop() }}
 
                     )
 

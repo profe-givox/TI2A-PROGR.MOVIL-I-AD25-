@@ -2,6 +2,7 @@ package net.ivanvega.archivosmultimediaconcompose
 
 import android.Manifest
 import android.content.Context
+import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.os.Build
 import androidx.compose.animation.animateContentSize
@@ -34,6 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
@@ -43,10 +45,10 @@ import java.io.FileOutputStream
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun     GrabarAudioScreen( onClickStGra: () -> Unit,
-                           onClickSpGra: () -> Unit,
-                           onClickStRe: () -> Unit,
-                           onClickSpRe: () -> Unit,){
+fun     GrabarAudioScreen(onClickStGra: () -> Unit,
+                          onClickSpGra: () -> Unit,
+                          onClickStRe: () -> Unit,
+                          onClickSpRe: () -> Unit,){
     val context = LocalContext.current
 
     val recordAudioPermissionState = rememberPermissionState(
@@ -181,6 +183,7 @@ interface AudioRecorder {
     fun start(outputFile: File)
     fun stop()
 }
+
 class AndroidAudioRecorder(
     private val context: Context
 ): AudioRecorder {
@@ -216,3 +219,26 @@ class AndroidAudioRecorder(
         recorder = null
     }
 }
+
+class AndroidAudioPlayer(
+    private val context: Context
+): AudioRecorder {
+
+    private var player: MediaPlayer? = null
+
+
+    override fun start(outputFile: File) {
+        MediaPlayer.create(context, outputFile.toUri()).apply {
+            player = this
+            start()
+        }
+    }
+
+    override fun stop() {
+        player?.stop()
+        player?.release()
+        player = null
+    }
+}
+
+
