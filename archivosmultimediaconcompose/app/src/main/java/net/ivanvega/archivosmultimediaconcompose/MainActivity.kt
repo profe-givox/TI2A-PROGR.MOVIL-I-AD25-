@@ -66,7 +66,7 @@ class MainActivity : ComponentActivity() {
                         name = "Android",
                         modifier = Modifier.padding(innerPadding)
                     )*/
-                    GrabarAudioScreen(
+                    /*GrabarAudioScreen(
                         {
 
                                 File(cacheDir, "miaudio.mp3").also {
@@ -78,7 +78,9 @@ class MainActivity : ComponentActivity() {
                         { fileAudio?.let { player.start(it) } },
                         {fileAudio?.let { player.stop() }}
 
-                    )
+                    )*/
+                    AlarmasScreen(
+                        CalendarizarAlarmas(applicationContext))
 
                 }
             }
