@@ -132,6 +132,7 @@ class CalendarizarAlarmas (val ctx : Context) : AlarmScheduler {
     override fun schedule(alarmItem: AlarmItem) {
         val  alarmIntent = Intent(ctx, AlarmasReceiver::class.java)
             .let { intent ->
+                intent.putExtra("EXTRA_MESSAGE", alarmItem.message)
             PendingIntent.getBroadcast(ctx, 1001, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         }
